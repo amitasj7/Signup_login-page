@@ -111,23 +111,22 @@ const Analytics = () => {
       },
     },
   };
-
   return (
-    <div className="min-h-screen overflow-auto">
+    <div className="">
       {/* Main Content */}
-      <div className="flex justify-between items-center w-full px-2 pb-10 pt-4 bg-gray-100">
+      <div className="flex flex-col sm:flex-row justify-between items-center w-full px-4 pb-10 pt-4 bg-gray-100">
         {/* Left Side Text */}
-        <h2 className="text-2xl font-bold text-black">Analytics</h2>
+        <h2 className="text-xl sm:text-2xl font-bold text-black mb-4 sm:mb-0">Analytics</h2>
+        
         {/* Right Side Input */}
-
         <input
-          class="input-xl input bg-[#ebebeb] text-[#a3a3a3]"
+          className="input input-lg bg-[#ebebeb] text-[#a3a3a3] w-full sm:w-auto"
           placeholder="Select Date Range"
         />
       </div>
-
+  
       {/* Stats Cards */}
-      <div className="flex flex-wrap justify-start gap-4 pl-2">
+      <div className="flex flex-wrap justify-start gap-4 px-2">
         {statsData.map((stat, index) => (
           <StatCard
             key={index}
@@ -139,9 +138,9 @@ const Analytics = () => {
           />
         ))}
       </div>
-
+  
       {/* Graph */}
-      <div className="bg-white p-6 shadow rounded-lg">
+      <div className="bg-white p-4 sm:p-6 shadow rounded-lg mt-4 mx-2 sm:mx-0">
         <h2 className="text-lg font-bold text-gray-800 mb-4">
           Last 7 Days: Registrations vs Referrals
         </h2>
@@ -149,6 +148,7 @@ const Analytics = () => {
       </div>
     </div>
   );
+  
 };
 
 export default Analytics;

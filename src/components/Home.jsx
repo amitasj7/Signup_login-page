@@ -1,15 +1,36 @@
-import React from "react";
+import React, { useState } from "react";
 import { Outlet, NavLink } from "react-router-dom";
 import { RiNotification2Line } from "react-icons/ri";
 import { SiSimpleanalytics } from "react-icons/si";
+import { HiMenu } from "react-icons/hi";
 
 const Home = () => {
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+  };
+
+  const handleLinkClick = () => {
+    if (isSidebarOpen) {
+      setIsSidebarOpen(false); // Close sidebar when a link is clicked
+    }
+  };
+
   return (
-    <div className="bg-gray-100 flex">
+    <div className="bg-white flex flex-col lg:flex-row">
+      {/* Sidebar Toggle Button for Mobile */}
+      <button className="lg:hidden p-4 text-black" onClick={toggleSidebar}>
+        <HiMenu className="text-2xl" />
+      </button>
+
       <aside
-        className="sidebar justify-start h-[140vh] bg-gray-custom flex flex-col"
-        style={{ color: "black" }}
+        className={`sidebar lg:block ${isSidebarOpen ? "block" : "hidden"} 
+              justify-start h-[100vh] lg:h-auto bg-gray-custom 
+              flex flex-col lg:w-1/4 fixed lg:relative z-20`}
+        style={{ color: "black", marginTop: "0" }} // Set marginTop to 0
       >
+        {/* Sidebar Content */}
         <section
           className="sidebar-title items-center p-4"
           style={{ color: "black" }}
@@ -37,10 +58,10 @@ const Home = () => {
           className="sidebar-content flex-grow overflow-y-auto"
           style={{ color: "black" }}
         >
-          <nav className="menu rounded-md ">
-            <section className="menu-section px-4 " style={{ color: "black" }}>
-              <ul className="menu-items ">
-                <NavLink to="analytics">
+          <nav className="menu rounded-md">
+            <section className="menu-section px-4" style={{ color: "black" }}>
+              <ul className="menu-items">
+                <NavLink to="analytics" onClick={handleLinkClick}>
                   {({ isActive }) => (
                     <li
                       className={`menu-item hover:bg-gray ${
@@ -53,8 +74,7 @@ const Home = () => {
                     </li>
                   )}
                 </NavLink>
-
-                <NavLink to="users">
+                <NavLink to="users" onClick={handleLinkClick}>
                   {({ isActive }) => (
                     <li
                       className={`menu-item hover:bg-gray ${
@@ -80,14 +100,13 @@ const Home = () => {
                     </li>
                   )}
                 </NavLink>
-
-                <NavLink to="notifications">
+                <NavLink to="notifications" onClick={handleLinkClick}>
                   {({ isActive }) => (
-                    <li className="">
+                    <li>
                       <input
                         type="checkbox"
                         id="menu-1"
-                        className="menu-toggle "
+                        className="menu-toggle"
                       />
                       <label
                         className={`menu-item justify-between hover:bg-gray ${
@@ -103,8 +122,7 @@ const Home = () => {
                     </li>
                   )}
                 </NavLink>
-
-                <NavLink to="transactions">
+                <NavLink to="transactions" onClick={handleLinkClick}>
                   {({ isActive }) => (
                     <li
                       className={`menu-item hover:bg-gray ${
@@ -134,45 +152,47 @@ const Home = () => {
             </section>
           </nav>
         </section>
-        <section className="sidebar-footer justify-end pt-2 bg-white text-black font-bold ">
+        <section className="sidebar-footer justify-end pt-2 bg-gray-custom text-black font-bold lg:w-full mt-[-30%]">
           <div className="divider my-0"></div>
-          <div className="dropdown z-50 flex h-fit w-full cursor-pointer hover:bg-gray rounded-lg">
+          <div className="dropdown z-50 flex w-full cursor-pointer hover:bg-gray rounded-lg px-4 py-2">
             <label
-              className="whites mx-2 flex w-full cursor-pointer p-0"
+              className="whites flex w-full cursor-pointer p-0"
               tabIndex="0"
             >
               <div
-                className="flex flex-row gap-4 p-4 "
+                className="flex flex-row gap-4 items-center"
                 style={{ color: "black" }}
               >
                 <div className="avatar avatar-md">
                   <img src="https://i.pravatar.cc/150?img=30" alt="avatar" />
                 </div>
-
                 <div className="flex flex-col text-black">
                   <span>Sandra Marx</span>
                   <span className="text-xs font-normal text-black">sandra</span>
                 </div>
               </div>
             </label>
-            <div className="dropdown-menu dropdown-menu-right-top ml-2">
-              <a className="dropdown-item text-sm">Profile</a>
-              <a tabIndex="-1" className="dropdown-item text-sm">
+            {/* Dropdown Menu */}
+            <div className="dropdown-menu dropdown-menu-right-top mt-2 rounded-md shadow-lg bg-gray-custom text-black">
+              <a className="dropdown-item text-sm hover:bg-gray px-4 py-2">
+                Profile
+              </a>
+              <a className="dropdown-item text-sm hover:bg-gray px-4 py-2">
                 Account settings
               </a>
-              <a tabIndex="-1" className="dropdown-item text-sm">
+              <a className="dropdown-item text-sm hover:bg-gray px-4 py-2">
                 Change email
               </a>
-              <a tabIndex="-1" className="dropdown-item text-sm">
+              <a className="dropdown-item text-sm hover:bg-gray px-4 py-2">
                 Subscriptions
               </a>
-              <a tabIndex="-1" className="dropdown-item text-sm">
+              <a className="dropdown-item text-sm hover:bg-gray px-4 py-2">
                 Change password
               </a>
-              <a tabIndex="-1" className="dropdown-item text-sm">
+              <a className="dropdown-item text-sm hover:bg-gray px-4 py-2">
                 Refer a friend
               </a>
-              <a tabIndex="-1" className="dropdown-item text-sm">
+              <a className="dropdown-item text-sm hover:bg-gray px-4 py-2">
                 Settings
               </a>
             </div>
@@ -180,7 +200,11 @@ const Home = () => {
         </section>
       </aside>
 
-      <div className="w-3/4 p-4 overflow-y-auto">
+      <div
+        className={`w-full lg:w-3/4 p-4 ${
+          isSidebarOpen ? "lg:ml-0  ml-0" : "lg:ml-0"
+        }`}
+      >
         <Outlet />
       </div>
     </div>
